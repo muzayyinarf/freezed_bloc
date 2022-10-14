@@ -21,7 +21,11 @@ class MainPage extends StatelessWidget {
           BlocBuilder<CounterBloc, CounterState>(
             builder: (context, state) {
               return Text(
-                state.when(initial: () => '-', running: (number) => '$number'),
+                state.when(
+                  initial: () => '-',
+                  running: (number) => '$number',
+                  loading: () => 'loading...',
+                ),
                 style: const TextStyle(
                   fontSize: 25,
                 ),
@@ -42,6 +46,21 @@ class MainPage extends StatelessWidget {
               context.read<CounterBloc>().add(const CounterEvent.increment());
             },
             child: const Text("increment"),
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueGrey,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(64.0),
+              ),
+            ),
+            onPressed: () {
+              context.read<CounterBloc>().add(const CounterEvent.decrement());
+            },
+            child: const Text("decrement"),
           ),
         ],
       )),
